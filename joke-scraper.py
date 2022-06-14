@@ -1,6 +1,4 @@
-from dotenv import load_dotenv
-load_dotenv()
-import os 
+from pythonENV import *
 
 import praw
 import sqlite3
@@ -9,8 +7,6 @@ from sqlite3 import Error
 from datetime import date
 
 from infra import *
-
-print(os.environ)
 
 jokes_added = 0
 
@@ -46,8 +42,8 @@ else:
     print("Error! cannot create the database connection.")
 
 reddit = praw.Reddit(
-    client_id=os.environ.get('client_id'),
-    client_secret=os.environ.get('client_secret'),
+    client_id=client_id,
+    client_secret=client_secret,
     user_agent='test-bot-8910:a test bot by /u/test-bot-8910',
     username='test-bot-8910',
     password='q5AKiz9tLm4jPij'
