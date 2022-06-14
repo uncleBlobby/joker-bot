@@ -48,12 +48,16 @@ reddit = praw.Reddit(
 )
 print("Reddit API connection opened...")
 
-scrape_sub('cleanjokes', reddit, database, jokes_added)
-scrape_sub('dadjokes', reddit, database, jokes_added)
-scrape_sub('jokes', reddit, database, jokes_added)
-scrape_sub('darkjokes', reddit, database, jokes_added)
+jokes_added = scrape_sub('cleanjokes', reddit, database, jokes_added)
+print("%d jokes added to database" % jokes_added)
+jokes_added = scrape_sub('dadjokes', reddit, database, jokes_added)
+print("%d jokes added to database" % jokes_added)
+jokes_added = scrape_sub('jokes', reddit, database, jokes_added)
+print("%d jokes added to database" % jokes_added)
+jokes_added = scrape_sub('darkjokes', reddit, database, jokes_added)
+print("%d jokes added to database" % jokes_added)
 
 database.close()
-print("%d jokes added to database" % jokes_added)
+
 print("Database closed...")
 print("Happy jokin'\n")
