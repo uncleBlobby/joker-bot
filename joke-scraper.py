@@ -48,42 +48,10 @@ reddit = praw.Reddit(
 )
 print("Reddit API connection opened...")
 
-subreddit = reddit.subreddit('cleanjokes')
-print("Scraping /r/cleanjokes...")
-
-for submission in subreddit.hot(limit=50):
-    joke = (submission.title, submission.selftext, date.today().strftime("%Y-%m-%d"))
-    jokeID = add_clean_joke(database, joke)
-    jokes_added += 1
-print("/r/cleanjokes scraped...")
-
-subreddit = reddit.subreddit('dadjokes')
-print("Scraping /r/dadjokes...")
-
-for submission in subreddit.hot(limit=50):
-    joke = (submission.title, submission.selftext, date.today().strftime("%Y-%m-%d"))
-    jokeID = add_dad_joke(database, joke)
-    jokes_added += 1
-print("/r/dadjokes scraped...")
-
-subreddit = reddit.subreddit('jokes')
-print("Scraping /r/jokes...")
-
-for submission in subreddit.hot(limit=50):
-    joke = (submission.title, submission.selftext, date.today().strftime("%Y-%m-%d"))
-    jokeID = add_joke(database, joke)
-    jokes_added += 1
-print("/r/jokes scraped...")
-
-subreddit = reddit.subreddit('darkjokes')
-print("Scraping /r/darkjokes...")
-
-for submission in subreddit.hot(limit=50):
-    joke = (submission.title, submission.selftext, date.today().strftime("%Y-%m-%d"))
-    jokeID = add_dark_joke(database, joke)
-    jokes_added += 1
-
-print("/r/darkjokes scraped...")
+scrape_sub('cleanjokes', reddit, database, jokes_added)
+scrape_sub('dadjokes', reddit, database, jokes_added)
+scrape_sub('jokes', reddit, database, jokes_added)
+scrape_sub('darkjokes', reddit, database, jokes_added)
 
 database.close()
 print("%d jokes added to database" % jokes_added)

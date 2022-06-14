@@ -1,3 +1,4 @@
+import praw
 from datetime import date
 
 create_clean_jokes_table = """ CREATE TABLE IF NOT EXISTS clean_jokes (
@@ -66,3 +67,25 @@ def add_dark_joke(conn, joke):
     cur.execute(sql, joke)
     conn.commit()
     return cur.lastrowid
+
+
+def scrape_sub(subname, reddit, database, jokes_added):
+    sub = reddit.subreddit(subname)
+    print("Scraping /r/%s..." % subname)
+
+    for submission in sub.hot(limit=50):
+        joke = (submission.title, submission.selftext, date.today().strftime("%Y-%m-%d"))
+        if subname == 'cleanjokes':
+            jokeID = add_clean_joke(database, joke)
+            
+        if subname == 'dadjokes':
+            jokeID = add_dad_joke(database, joke)
+            
+        if subname == 'jokes':
+            jokeID = add_joke(database, joke)
+            
+        if subname == 'darkjokes':
+            jokeID = add_dark_joke(database, joke)
+            
+        jokes_added += 1
+    print("/r/%s scraped..." % subname)
