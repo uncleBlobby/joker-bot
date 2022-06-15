@@ -10,15 +10,13 @@ def create_connection(db_file):
     conn = None
     try:
         conn = sqlite3.connect(db_file)
-        print(sqlite3.version)
+        print("Cleaning up database...")
     except Error as e:
         print(e)
     finally:
         return conn
 
 database = create_connection('./jokes.db')
-
-
 
 current_target = 1
 
@@ -66,7 +64,14 @@ def main_database_cleaner(database, key):
         
         key += 1
     
-    print("%d matches found" % matches_found)
+    print("%d duplicates deleted" % matches_found)
 
+def find_jokes_that_remain(database):
+    return return_last_row_id(database)
 
 main_database_cleaner(database, current_target)
+
+print("Database closed...")
+print("%d jokes remain" % find_jokes_that_remain(database))
+print("Happy jokin'")
+database.close()

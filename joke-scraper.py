@@ -15,7 +15,7 @@ def create_connection(db_file):
     conn = None
     try:
         conn = sqlite3.connect(db_file)
-        print(sqlite3.version)
+        #print(sqlite3.version)
     except Error as e:
         print(e)
     finally:
@@ -61,6 +61,3 @@ jokes_added = scrape_sub('darkjokes', reddit, database, jokes_added)
 print("%d jokes added to database" % jokes_added)
 
 database.close()
-
-print("Database closed...")
-print("Happy jokin'\n")
