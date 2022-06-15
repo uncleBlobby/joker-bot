@@ -38,6 +38,7 @@ if database is not None:
     create_table(database, create_dad_jokes_table)
     create_table(database, create_jokes_table)
     create_table(database, create_dark_jokes_table)
+    create_table(database, create_master_jokes_table)
 else:
     print("Error! cannot create the database connection.")
 
