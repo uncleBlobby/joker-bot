@@ -29,13 +29,21 @@ create_jokes_table = """ CREATE TABLE IF NOT EXISTS jokes (
                                     createdAt text NOT NULL
                                 ); """
 
+create_master_jokes_table = """ CREATE TABLE IF NOT EXISTS master_jokes (
+                                    id integer PRIMARY KEY,
+                                    title text NOT NULL,
+                                    joke text,
+                                    category text NOT NULL,
+                                    createdAt text NOT NULL
+                                ); """
+
 
 
 def add_joke(conn, joke):
 
     createdAt = date.today().strftime("%Y-%m-%d")
-    sql = ''' INSERT INTO jokes(title, joke, createdAt)
-              VALUES(?,?,?) '''
+    sql = ''' INSERT INTO master_jokes(title, joke, category, createdAt)
+              VALUES(?,?,?,?) '''
     cur = conn.cursor()
     cur.execute(sql, joke)
     conn.commit()
@@ -43,8 +51,8 @@ def add_joke(conn, joke):
 
 def add_clean_joke(conn, joke):
 
-    sql = ''' INSERT INTO clean_jokes(title, joke, createdAt)
-              VALUES(?,?,?) '''
+    sql = ''' INSERT INTO master_jokes(title, joke, category, createdAt)
+              VALUES(?,?,?,?) '''
     cur = conn.cursor()
     cur.execute(sql, joke)
     conn.commit()
@@ -52,8 +60,8 @@ def add_clean_joke(conn, joke):
 
 def add_dad_joke(conn, joke):
     
-    sql = ''' INSERT INTO dad_jokes(title, joke, createdAt)
-            VALUES(?,?,?) '''
+    sql = ''' INSERT INTO master_jokes(title, joke, category, createdAt)
+            VALUES(?,?,?,?) '''
     cur = conn.cursor()
     cur.execute(sql, joke)
     conn.commit()
@@ -61,8 +69,8 @@ def add_dad_joke(conn, joke):
 
 def add_dark_joke(conn, joke):
     
-    sql = ''' INSERT INTO dark_jokes(title, joke, createdAt)
-            VALUES(?,?,?) '''
+    sql = ''' INSERT INTO master_jokes(title, joke, category, createdAt)
+            VALUES(?,?,?,?) '''
     cur = conn.cursor()
     cur.execute(sql, joke)
     conn.commit()
@@ -74,38 +82,46 @@ def scrape_sub(subname, reddit, database, jokes_added):
     print("Scraping /r/%s..." % subname)
     new_jokes = 0
     for submission in sub.hot(limit=50):
-        joke = (submission.title, submission.selftext, date.today().strftime("%Y-%m-%d"))
+        
         if subname == 'cleanjokes':
+            joke = (submission.title, submission.selftext, 'clean joke', date.today().strftime("%Y-%m-%d"))
             jokeID = add_clean_joke(database, joke)
             new_jokes += 1
             
         if subname == 'dadjokes':
+            joke = (submission.title, submission.selftext, 'dad joke', date.today().strftime("%Y-%m-%d"))
             jokeID = add_dad_joke(database, joke)
             new_jokes += 1
             
         if subname == 'jokes':
+            joke = (submission.title, submission.selftext, 'joke', date.today().strftime("%Y-%m-%d"))
             jokeID = add_joke(database, joke)
             new_jokes += 1
             
         if subname == 'darkjokes':
+            joke = (submission.title, submission.selftext, 'dark', date.today().strftime("%Y-%m-%d"))
             jokeID = add_dark_joke(database, joke)
             new_jokes += 1
     
     for submission in sub.new(limit=50):
-        joke = (submission.title, submission.selftext, date.today().strftime("%Y-%m-%d"))
+
         if subname == 'cleanjokes':
+            joke = (submission.title, submission.selftext, 'clean joke', date.today().strftime("%Y-%m-%d"))
             jokeID = add_clean_joke(database, joke)
             new_jokes += 1
             
         if subname == 'dadjokes':
+            joke = (submission.title, submission.selftext, 'dad joke', date.today().strftime("%Y-%m-%d"))
             jokeID = add_dad_joke(database, joke)
             new_jokes += 1
             
         if subname == 'jokes':
+            joke = (submission.title, submission.selftext, 'joke', date.today().strftime("%Y-%m-%d"))
             jokeID = add_joke(database, joke)
             new_jokes += 1
             
         if subname == 'darkjokes':
+            joke = (submission.title, submission.selftext, 'dark', date.today().strftime("%Y-%m-%d"))
             jokeID = add_dark_joke(database, joke)
             new_jokes += 1
             
