@@ -45,9 +45,9 @@ else:
 reddit = praw.Reddit(
     client_id=client_id,
     client_secret=client_secret,
-    user_agent='test-bot-8910:a test bot by /u/test-bot-8910',
-    username='test-bot-8910',
-    password='q5AKiz9tLm4jPij'
+    user_agent=user_agent,
+    username=user_name,
+    password=password
 )
 print("Reddit API connection opened...")
 
