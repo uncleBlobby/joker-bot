@@ -90,6 +90,24 @@ def scrape_sub(subname, reddit, database, jokes_added):
         if subname == 'darkjokes':
             jokeID = add_dark_joke(database, joke)
             new_jokes += 1
+    
+    for submission in sub.new(limit=50):
+        joke = (submission.title, submission.selftext, date.today().strftime("%Y-%m-%d"))
+        if subname == 'cleanjokes':
+            jokeID = add_clean_joke(database, joke)
+            new_jokes += 1
+            
+        if subname == 'dadjokes':
+            jokeID = add_dad_joke(database, joke)
+            new_jokes += 1
+            
+        if subname == 'jokes':
+            jokeID = add_joke(database, joke)
+            new_jokes += 1
+            
+        if subname == 'darkjokes':
+            jokeID = add_dark_joke(database, joke)
+            new_jokes += 1
             
     print("/r/%s scraped..." % subname)            
     return new_jokes
